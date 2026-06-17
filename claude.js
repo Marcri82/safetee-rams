@@ -13,9 +13,7 @@ export default async function handler(req, res) {
   // --- Einfacher Origin-Schutz (KEIN echter Missbrauchsschutz, s. README) ---
   // Erlaubt nur Aufrufe von deinen eigenen Domains. Spoofbar, aber hebt die
   // Huerde gegen banale Fremdnutzung deines Proxys.
-  const ALLOWED = [
-    "https://www.safetee.eu",
-    "https://safetee.eu",
+  const ALLOWED = [];
     // Vercel-Preview-/Produktions-URL ggf. hier ergaenzen, z.B.:
     // "https://safetee-rams.vercel.app",
   ];
