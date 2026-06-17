@@ -1,31 +1,7 @@
 // Vercel Serverless Function – laeuft auf dem Server, NICHT im Browser.
-// Sie haelt den Anthropic-Key (aus der Environment-Variable ANTHROPIC_API_KEY)
-// und leitet Anfragen des Frontends an die Claude-API weiter.
-// So erreicht der Key nie den Browser des Besuchers.
-
 export default async function handler(req, res) {
-  // Nur POST zulassen
   if (req.method !== "POST") {
     res.status(405).json({ error: { message: "Method not allowed" } });
-    return;
-  }
-
-  // --- Einfacher Origin-Schutz (KEIN echter Missbrauchsschutz, s. README) ---
-  // Erlaubt nur Aufrufe von deinen eigenen Domains. Spoofbar, aber hebt die
-  // Huerde gegen banale Fremdnutzung deines Proxys.
-  const ALLOWED = [
-    "https://www.safetee.eu",
-    "https://safetee.eu",
-    // Vercel-Preview-/Produktions-URL ggf. hier ergaenzen, z.B.:
-    // "https://safetee-rams.vercel.app",
-  ];
-  const origin = req.headers.origin || "";
-  const referer = req.headers.referer || "";
-  const allowed =
-    ALLOWED.length === 0 ||
-    ALLOWED.some((o) => origin.startsWith(o) || referer.startsWith(o));
-  if (!allowed) {
-    res.status(403).json({ error: { message: "Forbidden origin" } });
     return;
   }
 
@@ -51,7 +27,6 @@ export default async function handler(req, res) {
         ...(body.system ? { system: body.system } : {}),
       }),
     });
-
     const data = await upstream.json();
     res.status(upstream.status).json(data);
   } catch (e) {
