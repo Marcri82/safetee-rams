@@ -1,0 +1,37 @@
+<!-- ============================================================= -->
+<!-- SAFETEE RAMS-Generator – Webflow Code-Embed                    -->
+<!-- Auf der Seite /Tools/rams ein "Embed"-Element einfuegen und    -->
+<!-- diesen Inhalt komplett hineinkopieren.                         -->
+<!-- VOR dem Publishen: RAMS_URL unten auf deine Vercel-URL setzen. -->
+<!-- ============================================================= -->
+
+<div id="sfty-rams-wrap" style="max-width:1100px;margin:0 auto;">
+  <iframe
+    id="sfty-rams-frame"
+    src="about:blank"
+    style="width:100%;border:0;display:block;min-height:900px;"
+    title="SAFETEE RAMS-Generator"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
+
+<script>
+(function () {
+  // >>> HIER deine Vercel-Produktions-URL eintragen (ohne Slash am Ende) <<<
+  var RAMS_URL = "https://safetee-rams.vercel.app";
+
+  var frame = document.getElementById("sfty-rams-frame");
+  frame.src = RAMS_URL;
+
+  // Hoehe automatisch anpassen: das eingebettete Tool meldet seine Hoehe per
+  // postMessage. Faellt das aus, bleibt min-height (900px) als Sicherheitsnetz.
+  window.addEventListener("message", function (e) {
+    // nur Nachrichten von der erwarteten Origin akzeptieren
+    if (RAMS_URL.indexOf(e.origin) !== 0) return;
+    if (e.data && e.data.type === "sfty-rams-height" && typeof e.data.height === "number") {
+      frame.style.height = (e.data.height + 24) + "px";
+    }
+  });
+})();
+</script>
